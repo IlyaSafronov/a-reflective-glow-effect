@@ -1,0 +1,81 @@
+nav {
+  anchor-name: --active-nav;
+}
+
+nav ul {
+  anchor-name: --nav-ul;
+  border-block-start: 3px solid hsl(0 0% 100% / .2);
+  border-block-end: 3px solid hsl(0 0% 100% / .2);
+}
+
+nav::after {
+  content: '';
+  border-block-start: 3px solid transparent;
+  border-block-end: 3px solid transparent;
+
+  background: 
+            radial-gradient(#111) padding-box,
+            radial-gradient(deeppink, transparent) border-box;
+  
+  position: absolute;
+  position-anchor:--active-nav;
+
+  left: calc(anchor(left) - 40px);
+  right: calc(anchor(right) - 40px);
+  top: anchor(top --nav-ul);
+  bottom: anchor(bottom --nav-ul);
+
+  pointer-events: none;
+  z-index: -1;
+
+  opacity: 0;
+  transition: inset 300ms, opacity 700ms;
+  transition-delay: 700ms, 0ms;
+}
+
+nav a:is(:hover, :focus) {
+  anchor-name: --active-nav;
+}
+
+nav:has(a:hover, a:focus)::after {
+  opacity: 1;
+  transition-delay: 0ms, 0ms;
+}
+
+@layer general-styling {
+  body {
+    background: #111;
+    color: #fff;
+    font-size: 3rem;
+    font-family: system-ui;
+    margin: 4rem;
+  }
+  nav {
+    margin-inline: auto;
+
+    ul {
+      list-style: none;
+      margin: 0rem;
+      padding: 2rem;
+      gap: 1rem;
+
+      display: flex;
+      justify-content: center;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+
+      border-radius: 2rem;
+      corner-shape: squircle;
+      border: 2px solid hsl(0 0% 100% / 0.25);
+      background: hsl(0 0 20%);
+      transition: background-color 300ms;
+    }
+    a:is(:hover, :focus) {
+      background: deeppink;
+      box-shadow: 0 0 32px oklch(from deeppink l c h / .5);
+    }
+  }
+}
